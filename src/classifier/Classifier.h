@@ -8,6 +8,7 @@
 #include "Instance.h"
 #include "Example.h"
 #include "Utf.h"
+#include <vector>
 
 using namespace nr;
 using namespace std;
@@ -29,7 +30,7 @@ public:
     void initialExamples(const vector<Instance>& vecInsts, vector<Example>& vecExams);
 
     void train(const string& trainFile, const string& devFile, const string& testFile, const string& modelFile, const string& optionFile);
-    Category predict(const Feature& feature, int excludedClass);
+    std::vector<Category> predict(const Feature &feature);
 
     void writeModelFile(const string& outputModelFile);
     void loadModelFile(const string& inputModelFile);

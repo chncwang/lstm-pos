@@ -26,8 +26,8 @@ int Classifier::createAlphabet(const vector<Instance> &vecInsts) {
         const Instance *pInstance = &vecInsts[numInstance];
 
         vector<const string *> words;
-        for (const string &w : pInstance->m_title_words) {
-            words.push_back(&w);
+        for (const auto &w : pInstance->m_seq) {
+            words.push_back(&w.first);
         }
 
         for (const string *w : words) {
@@ -63,8 +63,8 @@ int Classifier::addTestAlpha(const vector<Instance> &vecInsts) {
 
         vector<const string *> words;
 
-        for (const string &w : pInstance->m_title_words) {
-            words.push_back(&w);
+        for (const auto &w : pInstance->m_seq) {
+            words.push_back(&w.first);
         }
 
         for (const string *w : words) {
@@ -87,9 +87,10 @@ int Classifier::addTestAlpha(const vector<Instance> &vecInsts) {
 
 
 void Classifier::convert2Example(const Instance *pInstance, Example &exam) {
-    exam.m_category = pInstance->m_category;
-    Feature feature = Feature::valueOf(*pInstance);
-    exam.m_feature = feature;
+    exam.m_feature = Feature::valueOf(*pInstance);
+    for (auto & p : pInstance->m_seq) {
+        exam.m_pos.push_back(p.second);
+    }
 }
 
 void Classifier::initialExamples(const vector<Instance> &vecInsts,
@@ -210,7 +211,7 @@ void Classifier::train(const string &trainFile, const string &devFile,
         assert(devExamples.size() > 0);
         for (int idx = 0; idx < devExamples.size(); idx++) {
             int excluded_class = -1;
-            Category result = predict(devExamples[idx].m_feature, excluded_class);
+            std::vector<Category> result = predict(devExamples[idx].m_feature);
 
             devInsts[idx].evaluate(result, dev_metric);
         }
@@ -232,9 +233,9 @@ void Classifier::train(const string &trainFile, const string &devFile,
         Metric test_metric;
         for (int idx = 0; idx < testExamples.size(); idx++) {
             int excluded_class = -1;
-            Category category = predict(testExamples[idx].m_feature, excluded_class);
+            std::vector<Category> categories = predict(testExamples[idx].m_feature);
 
-            testInsts[idx].evaluate(category, test_metric);
+            testInsts[idx].evaluate(categories, test_metric);
         }
 
         auto test_time_end = std::chrono::high_resolution_clock::now();
@@ -255,10 +256,10 @@ void Classifier::train(const string &trainFile, const string &devFile,
     }
 }
 
-Category Classifier::predict(const Feature &feature, int excluded_class) {
-    Category category;
-    m_driver.predict(feature, category, excluded_class);
-    return category;
+std::vector<Category> Classifier::predict(const Feature &feature) {
+    std::vector<Category> categories;
+    m_driver.predict(feature, categories);
+    return categories;
 }
 
 void Classifier::loadModelFile(const string &inputModelFile) {

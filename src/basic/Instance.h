@@ -4,36 +4,37 @@
 #include <iostream>
 #include "Targets.h"
 #include "Category.h"
+#include <utility>
 
 using namespace std;
 
-class Instance
-{
+class Instance {
 public:
-    void evaluate(Category predicted_category, Metric& metric) const {
-        ++metric.overall_label_count;
-        if (predicted_category == m_category) {
-            metric.correct_label_count++;
-        }
-    }
-
     int size() const {
-        return m_title_words.size();
+        return m_seq.size();
     }
 
     std::string tostring();
 public:
-    vector<string> m_title_words;
-    Category m_category;
+    vector<pair<string, Category>> m_seq;
+
+    void evaluate(const std::vector<Category> &predicted_category,
+            Metric& metric) const {
+        for (int i = 0; i < m_seq.size(); ++i) {
+            ++metric.overall_label_count;
+            if (predicted_category.at(i) == m_seq.at(i).second) {
+                metric.correct_label_count++;
+            }
+        }
+    }
 };
 
 std::string Instance::tostring() {
-    string result = "target: ";
+    string result = "";
 
-    for (string & w : m_title_words) {
-        result += w + " ";
+    for (auto & w : m_seq) {
+        result += w.first + "," + std::to_string(w.second) + " ";
     }
-    result += "\nstance: " + m_category;
     return result;
 }
 

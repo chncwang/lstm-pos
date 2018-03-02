@@ -2,108 +2,151 @@
 #define NEWS_SRC_BASIC_CATEGORY_H
 
 #include <string>
+#include <iostream>
 
 enum Category {
-    BABY,
-    BEAUTY,
-    CAR,
-    COMIC,
-    CONSTELLATION,
-    CULTURAL,
-    DESIGN,
-    DIGI,
-    DRAMA,
-    DRESS,
-    EDUCATION,
-    FOOD,
-    GAME,
-    HEALTH,
-    HOUSE,
-    IT,
-    JOKE,
-    LOTTERY,
-    MANAGE,
-    MASS_COMMUNICATION,
-    MONEY,
-    MOVIE,
-    MUSIC,
-    NEWS,
-    PET,
-    PHOTO,
-    SCIENCE,
-    SEX,
-    SPORTS,
-    STAR,
-    TRAVEL,
-    TV
+    Ag,
+    a,
+    ad,
+    an,
+    Bg,
+    b,
+    c,
+    Dg,
+    d,
+    e,
+    f,
+    g,
+    h,
+    i,
+    j,
+    k,
+    Mg,
+    m,
+    Ng,
+    n,
+    NR,
+    ns,
+    nt,
+    nx,
+    nz,
+    o,
+    p,
+    Qg,
+    q,
+    Rg,
+    r,
+    s,
+    Tg,
+    t,
+    Ug,
+    u,
+    Vg,
+    v,
+    vd,
+    vn,
+    w,
+    x,
+    Yg,
+    y,
+    z
 };
 
+const int CATEGORY_COUNT = 45;
+
 Category ToCategory(const std::string &str) {
-    if (str == "baby") {
-        return Category::BABY;
-    } else if (str == "beauty") {
-        return Category::BEAUTY;
-    } else if (str == "car") {
-        return Category::CAR;
-    } else if (str == "comic") {
-        return Category::COMIC;
-    } else if (str == "constellation") {
-        return Category::CONSTELLATION;
-    } else if (str == "cultural") {
-        return Category::CULTURAL;
-    } else if (str == "design") {
-        return Category::DESIGN;
-    } else if (str == "digi") {
-        return Category::DIGI;
-    } else if (str == "drama") {
-        return Category::DRAMA;
-    } else if (str == "dress") {
-        return Category::DRESS;
-    } else if (str == "education") {
-        return Category::EDUCATION;
-    } else if (str == "food") {
-        return Category::FOOD;
-    } else if (str == "game") {
-        return Category::GAME;
-    } else if (str == "health") {
-        return Category::HEALTH;
-    } else if (str == "house") {
-        return Category::HOUSE;
-    } else if (str == "it") {
-        return Category::IT;
-    } else if (str == "joke") {
-        return Category::JOKE;
-    } else if (str == "lottery") {
-        return Category::LOTTERY;
-    } else if (str == "manage") {
-        return Category::MANAGE;
-    } else if (str == "mass_communication") {
-        return Category::MASS_COMMUNICATION;
-    } else if (str == "money") {
-        return Category::MONEY;
-    } else if (str == "movie") {
-        return Category::MOVIE;
-    } else if (str == "music") {
-        return Category::MUSIC;
-    } else if (str == "news") {
-        return Category::NEWS;
-    } else if (str == "pet") {
-        return Category::PET;
-    } else if (str == "photo") {
-        return Category::PHOTO;
-    } else if (str == "science") {
-        return Category::SCIENCE;
-    } else if (str == "sex") {
-        return Category::SEX;
-    } else if (str == "sports") {
-        return Category::SPORTS;
-    } else if (str == "star") {
-        return Category::STAR;
-    } else if (str == "travel") {
-        return Category::TRAVEL;
-    } else if (str == "tv") {
-        return Category::TV;
+    if (str == "Ag") {
+        return Category::Ag;
+    } else if (str == "a") {
+        return Category::a;
+    } else if (str == "ad") {
+        return Category::ad;
+    } else if (str == "an") {
+        return Category::an;
+    } else if (str == "Bg") {
+        return Category::Bg;
+    } else if (str == "b") {
+        return Category::b;
+    } else if (str == "c") {
+        return Category::c;
+    } else if (str == "Dg") {
+        return Category::Dg;
+    } else if (str == "d") {
+        return Category::d;
+    } else if (str == "e") {
+        return Category::e;
+    } else if (str == "f") {
+        return Category::f;
+    } else if (str == "g") {
+        return Category::g;
+    } else if (str == "h") {
+        return Category::h;
+    } else if (str == "i") {
+        return Category::i;
+    } else if (str == "j") {
+        return Category::j;
+    } else if (str == "k") {
+        return Category::k;
+    } else if (str == "Mg") {
+        return Category::Mg;
+    } else if (str == "m") {
+        return Category::m;
+    } else if (str == "Ng") {
+        return Category::Ng;
+    } else if (str == "n") {
+        return Category::n;
+    } else if (str == "nr") {
+        return Category::NR;
+    } else if (str == "ns") {
+        return Category::ns;
+    } else if (str == "nt") {
+        return Category::nt;
+    } else if (str == "nx") {
+        return Category::nx;
+    } else if (str == "nz") {
+        return Category::nz;
+    } else if (str == "o") {
+        return Category::o;
+    } else if (str == "p") {
+        return Category::p;
+    } else if (str == "Qg") {
+        return Category::Qg;
+    } else if (str == "q") {
+        return Category::q;
+    } else if (str == "Rg") {
+        return Category::Rg;
+    } else if (str == "r") {
+        return Category::r;
+    } else if (str == "s") {
+        return Category::s;
+    } else if (str == "Tg") {
+        return Category::Tg;
+    } else if (str == "t") {
+        return Category::t;
+    } else if (str == "Ug") {
+        return Category::Ug;
+    } else if (str == "u") {
+        return Category::u;
+    } else if (str == "Vg") {
+        return Category::Vg;
+    } else if (str == "v") {
+        return Category::v;
+    } else if (str == "vd") {
+        return Category::vd;
+    } else if (str == "vn") {
+        return Category::vn;
+    } else if (str == "w") {
+        return Category::w;
+    } else if (str == "x") {
+        return Category::x;
+    } else if (str == "Yg") {
+        return Category::Yg;
+    } else if (str == "y") {
+        return Category::y;
+    } else if (str == "z") {
+        return Category::z;
     } else {
+        std::cout << "unknown type:" << str << std::endl;
         abort();
     }
 }

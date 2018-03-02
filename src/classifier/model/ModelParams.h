@@ -27,7 +27,7 @@ public:
         left_to_right_lstm_param.initial(opts.hiddenSize, opts.wordDim);
         right_to_left_lstm_param.initial(opts.hiddenSize, opts.wordDim);
         bi_param.initial(opts.hiddenSize, opts.hiddenSize, opts.hiddenSize);
-        olayer_linear.initial(opts.labelSize, opts.hiddenSize, true);
+        olayer_linear.initial(CATEGORY_COUNT, opts.hiddenSize, false);
         return true;
     }
 

@@ -85,34 +85,42 @@ public:
 
         for (int count = 0; count < example_num; count++) {
             const Example &example = examples[count];
-            cost += _modelparams.loss.loss(&_builders[count]._neural_output,
-                example.m_category, _metric, example_num);
+            for (int i = 0; i < example.m_feature.m_words.size(); ++i) {
+                Category category = example.m_pos.at(i);
+                cost += _modelparams.loss.loss(&_builders.at(count)._bi_nodes.at(i), category, _metric, example_num);
+            }
+            // TODO
+            //cost += _modelparams.loss.loss(&_builders[count]._neural_output,
+            //    example.m_category, _metric, example_num);
         }
         _cg.backward();
 
         return cost;
     }
 
-    inline void predict(const Feature &feature, Category &result, int excluded_class) {
+    inline void predict(const Feature &feature, std::vector<Category> &result) {
         _cg.clearValue();
         _builders[0].forward(feature);
         _cg.compute();
 
-        int intResult;
-        _modelparams.loss.predict(&_builders[0]._neural_output, intResult, excluded_class );
-        result = static_cast<Category>(intResult);
+        for (int i = 0; i < feature.m_words.size(); ++i) {
+            int intResult;
+            _modelparams.loss.predict(&_builders[0]._linear_nodes.at(i),
+                    intResult);
+            result.push_back(static_cast<Category>(intResult));
+        }
     }
 
-    inline dtype cost(const Example &example) {
-        _cg.clearValue();
-        _builders[0].forward(example.m_feature, true);
-        _cg.compute();
+//    inline dtype cost(const Example &example) {
+//        _cg.clearValue();
+//        _builders[0].forward(example.m_feature, true);
+//        _cg.compute();
 
-        dtype cost = _modelparams.loss.cost(&_builders[0]._neural_output,
-            example.m_category, 1);
+//        dtype cost = _modelparams.loss.cost(&_builders[0]._neural_output,
+//            example.m_category, 1);
 
-        return cost;
-    }
+//        return cost;
+//    }
 
 
     void updateModel() {
@@ -123,7 +131,7 @@ public:
     void checkgrad(const vector<Example> &examples, int iter) {
         ostringstream out;
         out << "Iteration: " << iter;
-        _checkgrad.check(this, examples, out.str());
+        //_checkgrad.check(this, examples, out.str());
     }
 
 private:

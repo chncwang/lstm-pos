@@ -9,6 +9,7 @@
 #include <string>
 #include <regex>
 
+
 #include "Instance.h"
 #include "Targets.h"
 
@@ -22,15 +23,30 @@ std::vector<std::string> readLines(const std::string &fullFileName) {
 }
 
 void readLineToInstance(const std::string &line, Instance *instance) {
-    int index = line.find_first_of(",");
-    assert(index != std::string::npos);
-    std::string category_str = line.substr(0, index);
-    Category category = ToCategory(category_str);
-    instance->m_category = category;
-    std::string title = line.substr(index);
-    std::vector<std::string> words;
-    split_bychars(title, words);
-    instance->m_title_words = std::move(words);
+    int start = 0;
+    std::cout << "line:" << line << std::endl;
+
+    while (true) {
+        auto slash = line.find("/");
+        if (slash == std::string::npos) {
+            break;
+        } else {
+            std::cout << "slash:" << slash << std::endl;
+            std::string word = line.substr(slash);
+            auto space_pos = line.find(" ", slash);
+            std::cout << "space_pos:" << space_pos << std::endl;
+            if (space_pos == std::string::npos) {
+                std::cout << "line:" << line << std::endl;
+                std::cout << "slash:"<< slash << std::endl;
+                abort();
+            }
+            std::string pos = line.substr(slash + 1, space_pos - slash);
+            Category category = ToCategory(pos);
+            std::pair<std::string, Category> pair =
+                std::make_pair(word, category);
+            instance->m_seq.push_back(pair);
+        }
+    }
 }
 
 std::vector<Instance> readInstancesFromFile(const std::string &fullFileName) {
@@ -40,6 +56,7 @@ std::vector<Instance> readInstancesFromFile(const std::string &fullFileName) {
         Instance instance;
         readLineToInstance(line, &instance);
         instances.push_back(instance);
+        std::cout << instance.tostring() << std::endl;
     }
 
     return instances;
