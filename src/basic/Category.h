@@ -22,6 +22,7 @@ enum Category {
     j,
     k,
     Mg,
+    l,
     m,
     Ng,
     n,
@@ -87,6 +88,8 @@ Category ToCategory(const std::string &str) {
         return Category::j;
     } else if (str == "k") {
         return Category::k;
+    } else if (str == "l") {
+        return Category::l;
     } else if (str == "Mg") {
         return Category::Mg;
     } else if (str == "m") {
@@ -147,6 +150,10 @@ Category ToCategory(const std::string &str) {
         return Category::z;
     } else {
         std::cout << "unknown type:" << str << std::endl;
+        std::cout << "len:" << str.size() << std::endl;
+        for (int i = 0; i < str.size(); ++i) {
+            std::cout << "char:" << str.at(i) << "code:" << (int)str.at(i) << std::endl;
+        }
         abort();
     }
 }

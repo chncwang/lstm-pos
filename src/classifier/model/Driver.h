@@ -87,7 +87,7 @@ public:
             const Example &example = examples[count];
             for (int i = 0; i < example.m_feature.m_words.size(); ++i) {
                 Category category = example.m_pos.at(i);
-                cost += _modelparams.loss.loss(&_builders.at(count)._bi_nodes.at(i), category, _metric, example_num);
+                cost += _modelparams.loss.loss(&_builders.at(count)._linear_nodes.at(i), category, _metric, example_num);
             }
             // TODO
             //cost += _modelparams.loss.loss(&_builders[count]._neural_output,
