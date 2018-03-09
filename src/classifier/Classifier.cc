@@ -201,7 +201,6 @@ void Classifier::train(const string &trainFile, const string &devFile,
         std::cout << "train set acc:" << metric.getAccuracy() << std::endl;
         if (accuracy >= 0.95) {
             std::cout << "train set is good enough, stop" << std::endl;
-            exit(0);
         }
 
         float dev_acc = 0.0;
@@ -234,6 +233,18 @@ void Classifier::train(const string &trainFile, const string &devFile,
         for (int idx = 0; idx < testExamples.size(); idx++) {
             int excluded_class = -1;
             std::vector<Category> categories = predict(testExamples[idx].m_feature);
+            if (idx < 10) {
+                const vector<std::string> &words = testExamples.at(idx).m_feature.m_words;
+                for (int i = 0; i < categories.size(); ++i) {
+                    std::cout << words.at(i) << "/";
+                    if (categories.at(i) != testExamples.at(idx).m_pos.at(i)) {
+                        std::cout << categories.at(i) << " but is " <<
+                            testExamples.at(idx).m_pos.at(i);
+                    } else {
+                    }
+                }
+                std::cout << std::endl;
+            }
 
             testInsts[idx].evaluate(categories, test_metric);
         }
